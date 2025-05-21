@@ -1,4 +1,8 @@
-See file:///Users/nithishsaranks/Downloads/FRC/Tokay25-rewrite/Tokay25-rewrite/build/tmp/compileFrcUserProgramDebugExecutableFrcUserProgramCpp/output.txt for all output for compileFrcUserProgramDebugExecutableFrcUserProgramCpp.
-compiling Robot.cpp successful.
+See file:///Users/nithishsaranks/Downloads/FRC/Tokay25-rewrite-1/build/tmp/compileFrcUserProgramDebugExecutableFrcUserProgramCpp/output.txt for all output for compileFrcUserProgramDebugExecutableFrcUserProgramCpp.
+compiling MotionSubsystem.cpp successful.
 
-Finished compileFrcUserProgramDebugExecutableFrcUserProgramCpp, see full log file:///Users/nithishsaranks/Downloads/FRC/Tokay25-rewrite/Tokay25-rewrite/build/tmp/compileFrcUserProgramDebugExecutableFrcUserProgramCpp/output.txt.
+compiling ElevatorSubsystem.cpp successful.
+
+compiling PivotSubsystem.cpp successful.
+
+Finished compileFrcUserProgramDebugExecutableFrcUserProgramCpp, see full log file:///Users/nithishsaranks/Downloads/FRC/Tokay25-rewrite-1/build/tmp/compileFrcUserProgramDebugExecutableFrcUserProgramCpp/output.txt.

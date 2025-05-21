@@ -1,6 +1,9 @@
 -o
-/Users/nithishsaranks/Downloads/FRC/Tokay25-rewrite/Tokay25-rewrite/build/exe/frcUserProgram/debug/frcUserProgram
-/Users/nithishsaranks/Downloads/FRC/Tokay25-rewrite/Tokay25-rewrite/build/objs/frcUserProgram/debug/frcUserProgramCpp/9760xtgdau9jsoxxi90ozrpww/Robot.o
+/Users/nithishsaranks/Downloads/FRC/Tokay25-rewrite-1/build/exe/frcUserProgram/debug/frcUserProgram
+/Users/nithishsaranks/Downloads/FRC/Tokay25-rewrite-1/build/objs/frcUserProgram/debug/frcUserProgramCpp/9760xtgdau9jsoxxi90ozrpww/Robot.o
+/Users/nithishsaranks/Downloads/FRC/Tokay25-rewrite-1/build/objs/frcUserProgram/debug/frcUserProgramCpp/de7xspbt9qqkncaua0dpm5qbo/MotionSubsystem.o
+/Users/nithishsaranks/Downloads/FRC/Tokay25-rewrite-1/build/objs/frcUserProgram/debug/frcUserProgramCpp/ehm13fdh386xkejc5mw658kl6/PivotSubsystem.o
+/Users/nithishsaranks/Downloads/FRC/Tokay25-rewrite-1/build/objs/frcUserProgram/debug/frcUserProgramCpp/dgsk07dwqngz6ey3z682z3ukc/ElevatorSubsystem.o
 /Users/nithishsaranks/.gradle/caches/8.11/transforms/fb3bd43205d90adccec91ea0c55b382e/transformed/wpilibNewCommands-cpp-2025.2.1-linuxathenadebug/linux/athena/shared/libwpilibNewCommandsd.so
 /Users/nithishsaranks/.gradle/caches/8.11/transforms/9aceec203ff03df9be21f89b3890c159/transformed/wpilibc-cpp-2025.2.1-linuxathenadebug/linux/athena/shared/libwpilibcd.so
 /Users/nithishsaranks/.gradle/caches/8.11/transforms/5f32e9545a8c49b59e4e044bd13e6b8f/transformed/ntcore-cpp-2025.2.1-linuxathenadebug/linux/athena/shared/libntcored.so
