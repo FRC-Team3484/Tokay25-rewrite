@@ -1,8 +1,43 @@
 See file:///Users/nithishsaranks/Downloads/FRC/Tokay25-rewrite-1/build/tmp/compileFrcUserProgramReleaseExecutableFrcUserProgramCpp/output.txt for all output for compileFrcUserProgramReleaseExecutableFrcUserProgramCpp.
-compiling PivotSubsystem.cpp successful.
+compiling SC_Limelight.cpp successful.
 
-compiling ElevatorSubsystem.cpp successful.
+compiling Robot.cpp successful.
+
+compiling SC_OperatorInput.cpp successful.
 
 compiling MotionSubsystem.cpp successful.
+
+compiling PivotSubsystem.cpp successful.
+
+compiling SC_Photon.cpp failed.
+In file included from /Users/nithishsaranks/Downloads/FRC/Tokay25-rewrite-1/src/main/include/FRC3484_Lib/components/SC_Photon.h:8,
+                 from /Users/nithishsaranks/Downloads/FRC/Tokay25-rewrite-1/src/main/cpp/FRC3484_Lib/components/SC_Photon.cpp:1:
+/Users/nithishsaranks/Downloads/FRC/Tokay25-rewrite-1/src/main/include/Constants.h:27:111: error: 'k2025ReefscapeWelded' is not a member of 'frc::AprilTagField'; did you mean 'k2025Reefscape'?
+   27 |     const frc::AprilTagFieldLayout APRIL_TAG_LAYOUT = frc::AprilTagFieldLayout::LoadField(frc::AprilTagField::k2025ReefscapeWelded);
+      |                                                                                                               ^~~~~~~~~~~~~~~~~~~~
+      |                                                                                                               k2025Reefscape
+
+compiling SC_ArmFeedForward.cpp successful.
+
+compiling ElevatorSubsystem.cpp failed.
+In file included from /Users/nithishsaranks/Downloads/FRC/Tokay25-rewrite-1/src/main/include/subsystems/ElevatorSubsystem.h:15,
+                 from /Users/nithishsaranks/Downloads/FRC/Tokay25-rewrite-1/src/main/cpp/subsystems/ElevatorSubsystem.cpp:1:
+/Users/nithishsaranks/Downloads/FRC/Tokay25-rewrite-1/src/main/include/Constants.h:27:111: error: 'k2025ReefscapeWelded' is not a member of 'frc::AprilTagField'; did you mean 'k2025Reefscape'?
+   27 |     const frc::AprilTagFieldLayout APRIL_TAG_LAYOUT = frc::AprilTagFieldLayout::LoadField(frc::AprilTagField::k2025ReefscapeWelded);
+      |                                                                                                               ^~~~~~~~~~~~~~~~~~~~
+      |                                                                                                               k2025Reefscape
+/Users/nithishsaranks/Downloads/FRC/Tokay25-rewrite-1/src/main/cpp/subsystems/ElevatorSubsystem.cpp:3:1: error: no declaration matches 'ElevatorSubsystem::ElevatorSubsystem()'
+    3 | ElevatorSubsystem::ElevatorSubsystem() = default;
+      | ^~~~~~~~~~~~~~~~~
+/Users/nithishsaranks/Downloads/FRC/Tokay25-rewrite-1/src/main/include/subsystems/ElevatorSubsystem.h:18:7: note: candidates are: 'ElevatorSubsystem::ElevatorSubsystem(ElevatorSubsystem&&)'
+   18 | class ElevatorSubsystem : public frc2::SubsystemBase {
+      |       ^~~~~~~~~~~~~~~~~
+/Users/nithishsaranks/Downloads/FRC/Tokay25-rewrite-1/src/main/include/subsystems/ElevatorSubsystem.h:18:7: note:                 'ElevatorSubsystem::ElevatorSubsystem(const ElevatorSubsystem&)'
+/Users/nithishsaranks/Downloads/FRC/Tokay25-rewrite-1/src/main/include/subsystems/ElevatorSubsystem.h:31:9: note:                 'ElevatorSubsystem::ElevatorSubsystem(int, int, int, SC::SC_PIDConstants, units::velocity::feet_per_second_t, units::acceleration::feet_per_second_squared_t, SC::SC_LinearFeedForward)'
+   31 |         ElevatorSubsystem(
+      |         ^~~~~~~~~~~~~~~~~
+/Users/nithishsaranks/Downloads/FRC/Tokay25-rewrite-1/src/main/include/subsystems/ElevatorSubsystem.h:18:7: note: 'class ElevatorSubsystem' defined here
+   18 | class ElevatorSubsystem : public frc2::SubsystemBase {
+      |       ^~~~~~~~~~~~~~~~~
 
 Finished compileFrcUserProgramReleaseExecutableFrcUserProgramCpp, see full log file:///Users/nithishsaranks/Downloads/FRC/Tokay25-rewrite-1/build/tmp/compileFrcUserProgramReleaseExecutableFrcUserProgramCpp/output.txt.
