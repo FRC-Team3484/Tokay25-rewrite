@@ -1,6 +1,47 @@
 #include <subsystems/ElevatorSubsystem.h>
+#include <units/math.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 
-ElevatorSubsystem::ElevatorSubsystem() = default;
+using namespace ctre::phoenix6;
+using namespace ElevatorConstants;
+using namespace units;
+
+ElevatorSubsystem::ElevatorSubsystem(
+    int primary_motor_can_id,
+    int secondary_motor_can_id,
+    int home_sensor_di_ch,
+    // int brake_servo_port,
+    SC::SC_PIDConstants elevator_pidc,
+    feet_per_second_t max_velocity,
+    feet_per_second_squared_t max_acceleration,
+    SC::SC_LinearFeedForward feed_forward_constants
+    ) :
+    _primary_motor(primary_motor_can_id),
+    _secondary_motor(secondary_motor_can_id),
+    _home_sensor(home_sensor_di_ch),
+    
+    _elevator_pid_controller{elevator_pidc.Kp, elevator_pidc.Ki, elevator_pidc.Kd},
+    _elevator_trapezoid{{max_velocity, max_acceleration}},
+    _elevator_feed_forward{
+        feed_forward_constants.S,
+        feed_forward_constants.G,
+        feed_forward_constants.V,
+        feed_forward_constants.A
+    }
+    {
+        configs::TalonFXConfiguration motor_config{};
+        motor_config.MotorOutput.Inverted = INVERT_MOTORS;
+        motor_config.MotorOutput.NeutralMode = signals::NeutralModeValue::Brake;
+        _primary_motor.GetConfigurator().Apply(motor_config);
+        _secondary_motor.GetConfigurator().Apply(motor_config);
+        _secondary_motor.SetControl(controls::Follower{_primary_motor.GetDeviceID(), MIRROR_MOTORS});
+        _trapezoid_timer.Start();
+
+        _elevator_state = home;
+}
 
 // This method will be called once per scheduler run
 void ElevatorSubsystem::Periodic() {}
+
+// set state to test; home; needs functions(?) for some reason idk
+

@@ -24,7 +24,7 @@
 #include "Config.h"
 
 namespace VisionConstants {
-    const frc::AprilTagFieldLayout APRIL_TAG_LAYOUT = frc::AprilTagFieldLayout::LoadField(frc::AprilTagField::k2025ReefscapeWelded);
+    const frc::AprilTagFieldLayout APRIL_TAG_LAYOUT = frc::AprilTagFieldLayout::LoadField(frc::AprilTagField::k2025Reefscape);
     constexpr photon::PoseStrategy POSE_STRATEGY = photon::PoseStrategy::MULTI_TAG_PNP_ON_COPROCESSOR;
 
     const Eigen::Matrix<double, 3, 1> SINGLE_TAG_STDDEV{4, 4, 8};
