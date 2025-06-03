@@ -41,7 +41,92 @@ ElevatorSubsystem::ElevatorSubsystem(
 }
 
 // This method will be called once per scheduler run
-void ElevatorSubsystem::Periodic() {}
+void ElevatorSubsystem::Periodic() {
+    volt_t feed_forward_output;
+    frc::TrapezoidProfile<units::feet>::State current_state;
+    volt_t pid_output;
+    
+    if (_HomeSensor()) {
+        _SetPosition(HOME_POSITION);
+    }
+    if (!_isHomed){
+        _elevator_state = home;
+    }
+
+    switch(_elevator_state) {
+        case home:
+            feed_forward_output = _elevator_feed_forward.Calculate(HOME_VELOCITY);
+            _primary_motor.SetVoltage(feed_forward_output);
+
+            if(_HomeSensor()) {
+                SetPower(0);
+                _SetPosition(HOME_POSITION);
+                _elevator_pid_controller.Reset();
+                _isHomed = true;
+                _elevator_state = ready;
+            }
+            
+            break;
+        
+        case ready:
+            current_state = _elevator_trapezoid.Calculate(_trapezoid_timer.Get(), _initial_state, _target_state);
+            feed_forward_output = _elevator_feed_forward.Calculate(_previous_elevator_velocity, meters_per_second_t{current_state.velocity});
+            pid_output = volt_t{_elevator_pid_controller.Calculate(inch_t{_GetElevatorHeight()}.value(), inch_t{current_state.position}.value())};
+            _primary_motor.SetVoltage(feed_forward_output+pid_output);
+            _previous_elevator_velocity = current_state.velocity;
+
+            break;
+        
+        case test:
+            
+            break;
+            
+        default:
+            _elevator_state = home;
+            
+            break;
+    }
+}
 
 // set state to test; home; needs functions(?) for some reason idk
+// we already have these technically ^^
 
+void ElevatorSubsystem::SetHeight(units::inch_t height) {
+    if (height != _target_state.position) {
+        if (height == HOME_POSITION && _target_state.position == CLIMB_HEIGHT) {
+            _climbing = true;
+        } else {
+            _climbing = false;
+        }
+        _target_state.position = height;
+        _target_state.velocity = 0_fps;
+        _initial_state.position = _GetElevatorHeight();
+        _initial_state.velocity = _GetElevatorVelocity();
+        _trapezoid_timer.Reset();
+    }
+}
+
+inch_t ElevatorSubsystem::_GetElevatorHeight() {
+    return (_primary_motor.GetPosition().GetValue() * ELEVATOR_RATIO) + _offset;
+}
+
+feet_per_second_t ElevatorSubsystem::_GetElevatorVelocity() {
+    return _primary_motor.GetRotorVelocity().GetValue() * ELEVATOR_RATIO;
+}
+
+
+bool ElevatorSubsystem::AtTargetHeight() {
+    return math::abs(_target_state.position - _GetElevatorHeight()) < POSITION_TOLERANCE;
+}
+
+bool ElevatorSubsystem::AtSafeStowPosition() {
+    return _GetElevatorHeight() < SAFE_STOW_POSITION;
+}
+
+bool ElevatorSubsystem::AtExtendedPosition() {
+    return _GetElevatorHeight() > EXTENDED_POSITION;
+}
+
+void ElevatorSubsystem::SetPower(double power) {
+    _primary_motor.Set(power);
+}
