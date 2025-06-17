@@ -89,17 +89,24 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
          */
         void SetStateToHome();
 
+        void Enable(bool enable);
+
+        void Test(bool test);
+
         void Periodic() override;
 
     private:
         bool _climbing = false;
+        bool _enabled = false;
+        bool _testing = false;
+        bool _homed = false;
+
         units::inch_t _offset = 0_in;
         bool _HomeSensor();
         bool _GetStalled();
         double _GetStallPercentage();
         void _SetPosition(units::inch_t offset);
 
-        bool _isHomed = false;
         
         units::inch_t _GetElevatorHeight();
         units::feet_per_second_t _GetElevatorVelocity();
@@ -110,7 +117,8 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
         enum state {
             home, 
             ready, 
-            test
+            test,
+            disabled
         };
         state _elevator_state = home;
 

@@ -49,40 +49,47 @@ void ElevatorSubsystem::Periodic() {
     if (_HomeSensor()) {
         _SetPosition(HOME_POSITION);
     }
-    if (!_isHomed){
+    if (!_homed){
         _elevator_state = home;
     }
 
     switch(_elevator_state) {
         case home:
-            feed_forward_output = _elevator_feed_forward.Calculate(HOME_VELOCITY);
-            _primary_motor.SetVoltage(feed_forward_output);
-
-            if(_HomeSensor()) {
-                SetPower(0);
-                _SetPosition(HOME_POSITION);
-                _elevator_pid_controller.Reset();
-                _isHomed = true;
+            if (!_enabled) {
+                _elevator_state = disabled;
+            } else if (_enabled && _homed) {
                 _elevator_state = ready;
             }
-            
+
             break;
         
         case ready:
-            current_state = _elevator_trapezoid.Calculate(_trapezoid_timer.Get(), _initial_state, _target_state);
-            feed_forward_output = _elevator_feed_forward.Calculate(_previous_elevator_velocity, meters_per_second_t{current_state.velocity});
-            pid_output = volt_t{_elevator_pid_controller.Calculate(inch_t{_GetElevatorHeight()}.value(), inch_t{current_state.position}.value())};
-            _primary_motor.SetVoltage(feed_forward_output+pid_output);
-            _previous_elevator_velocity = current_state.velocity;
+            if (!_enabled) {
+                _elevator_state = disabled;
+            }
 
             break;
         
         case test:
-            
+            if (!_enabled) {
+                _elevator_state = disabled;
+            }
+
             break;
-            
+
+        case disabled:
+            if (_enabled && !_homed) {
+                _elevator_state = home;
+            } else if (_enabled && _homed) {
+                _elevator_state = ready;
+            } else if (_enabled && _testing) {
+                _elevator_state = test;
+            }
+
+            break;
+
         default:
-            _elevator_state = home;
+            _elevator_state = disabled;
             
             break;
     }
@@ -129,4 +136,16 @@ bool ElevatorSubsystem::AtExtendedPosition() {
 
 void ElevatorSubsystem::SetPower(double power) {
     _primary_motor.Set(power);
+}
+
+void ElevatorSubsystem::Enable(bool enable) {
+    _enabled = enable;
+}
+
+void ElevatorSubsystem::Test(bool to_test) {
+    _testing = to_test;
+}
+
+bool ElevatorSubsystem::_HomeSensor() {
+    return !_home_sensor.Get();
 }
