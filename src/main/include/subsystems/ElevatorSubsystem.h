@@ -89,9 +89,24 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
          */
         void SetStateToHome();
 
+        /**
+         * Enables or disables the robot
+         * @param enable Whether to enable the robot or not
+         */
         void Enable(bool enable);
 
-        void Test(bool test);
+        /**
+         * Sets testing true or false
+         * @param to_test Whether to set the state to test or not
+         */
+        void Test(bool to_test);
+
+        /**
+         * Resets robot
+         * 
+         * (literally just makes the variable '`_homed`' false)
+         */
+        void Reset();
 
         void Periodic() override;
 

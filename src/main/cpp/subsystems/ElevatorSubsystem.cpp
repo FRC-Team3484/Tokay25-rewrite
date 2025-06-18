@@ -66,6 +66,8 @@ void ElevatorSubsystem::Periodic() {
         case ready:
             if (!_enabled) {
                 _elevator_state = disabled;
+            } else if (_enabled && !_homed) {
+                _elevator_state = home;
             }
 
             break;
@@ -144,6 +146,10 @@ void ElevatorSubsystem::Enable(bool enable) {
 
 void ElevatorSubsystem::Test(bool to_test) {
     _testing = to_test;
+}
+
+void ElevatorSubsystem::Reset() {
+    _homed = false;
 }
 
 bool ElevatorSubsystem::_HomeSensor() {
