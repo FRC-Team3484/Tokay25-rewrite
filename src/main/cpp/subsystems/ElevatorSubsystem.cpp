@@ -61,6 +61,17 @@ void ElevatorSubsystem::Periodic() {
                 _elevator_state = ready;
             }
 
+            feed_forward_output = _elevator_feed_forward.Calculate(HOME_VELOCITY);
+            _primary_motor.SetVoltage(feed_forward_output);
+            if (_HomeSensor()) {
+                _primary_motor.SetVoltage(0_V);
+                _SetPosition(HOME_POSITION);
+                _elevator_pid_controller.Reset();
+                _homed = true;
+                _elevator_state = ready;
+                _SetPosition(HOME_POSITION);
+            }
+
             break;
         
         case ready:
@@ -69,6 +80,12 @@ void ElevatorSubsystem::Periodic() {
             } else if (_enabled && !_homed) {
                 _elevator_state = home;
             }
+            
+            current_state = _elevator_trapezoid.Calculate(_trapezoid_timer.Get(), _initial_state, _target_state);
+            feed_forward_output = _elevator_feed_forward.Calculate(_previous_elevator_velocity, meters_per_second_t{current_state.velocity});
+            pid_output = volt_t{_elevator_pid_controller.Calculate(inch_t{_GetElevatorHeight()}.value(), inch_t{current_state.position}.value())};
+            _primary_motor.SetVoltage(feed_forward_output+pid_output);
+            _previous_elevator_velocity = current_state.velocity;
 
             break;
         
@@ -102,11 +119,6 @@ void ElevatorSubsystem::Periodic() {
 
 void ElevatorSubsystem::SetHeight(units::inch_t height) {
     if (height != _target_state.position) {
-        if (height == HOME_POSITION && _target_state.position == CLIMB_HEIGHT) {
-            _climbing = true;
-        } else {
-            _climbing = false;
-        }
         _target_state.position = height;
         _target_state.velocity = 0_fps;
         _initial_state.position = _GetElevatorHeight();
@@ -137,7 +149,9 @@ bool ElevatorSubsystem::AtExtendedPosition() {
 }
 
 void ElevatorSubsystem::SetPower(double power) {
-    _primary_motor.Set(power);
+    if (_elevator_state == test) {
+        _primary_motor.Set(power);
+    }
 }
 
 void ElevatorSubsystem::Enable(bool enable) {
